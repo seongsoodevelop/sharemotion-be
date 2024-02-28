@@ -1,7 +1,8 @@
 import KoaRouter from "koa-router";
-import { query } from "./ctrl.js";
+import { query, insert } from "./ctrl.js";
 
 const router = new KoaRouter();
 router.post("/query", query);
+router.post("/insert", insert);
 
 export default router;

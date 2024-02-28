@@ -75,6 +75,6 @@ export const login = async (ctx, next) => {
     );
     ctx.body = profile;
   } catch (e) {
-    ctx.throw(400, e);
+    ctx.throw(400, e.message);
   }
 };
