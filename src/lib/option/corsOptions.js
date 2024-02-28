@@ -1,7 +1,7 @@
 export const getCorsOptions = (isProduction) => {
   if (isProduction)
     return {
-      origin: "https://growthtopia.net",
+      origin: "https://sharemotion.co.kr",
       credentials: true,
     };
   else
