@@ -9,7 +9,7 @@ dotenv.config();
 export const login = async (ctx, next) => {
   try {
     if (ctx.request.auth) {
-      ctx.body = ctx.request.auth.profile;
+      ctx.body = { profile: { ...ctx.request.auth.profile } };
       return next();
     }
 
@@ -68,12 +68,12 @@ export const login = async (ctx, next) => {
     } catch (e) {
       ctx.throw(500, e);
     }
-    ctx.cookies.set(
-      "access_token",
-      jwtToken,
-      getCookieSecureOptions(process.env.NODE_ENV === "production")
-    );
-    ctx.body = profile;
+    // ctx.cookies.set(
+    //   "access_token",
+    //   jwtToken,
+    //   getCookieSecureOptions(process.env.NODE_ENV === "production")
+    // );
+    ctx.body = { profile: profile, access_token: jwtToken };
   } catch (e) {
     ctx.throw(400, e.message);
   }

@@ -9,7 +9,7 @@ import { getSSLOptions } from "#lib/option/sslOptions.js";
 import { getCorsOptions } from "#lib/option/corsOptions.js";
 
 import API from "#api/index.js";
-import { jwtMiddleware } from "#lib/token.js";
+import { jwtMiddlewareStorage } from "#lib/token.js";
 
 dotenv.config();
 const isProduction = process.env.NODE_ENV === "production";
@@ -20,7 +20,7 @@ const app = new Koa();
 app.proxy = true;
 app.use(KoaCors(getCorsOptions(isProduction)));
 app.use(KoaBody());
-app.use(jwtMiddleware);
+app.use(jwtMiddlewareStorage);
 
 // router
 const router = new KoaRouter();

@@ -10,6 +10,20 @@ export const query = async (ctx, next) => {
   }
 };
 
+export const getUser = async (ctx, next) => {
+  try {
+    const auth = ctx.request.auth;
+    if (!auth) {
+      ctx.throw(400, "you must sign in first");
+    }
+
+    const res = await Diary.db_getUser(auth.id);
+    ctx.body = res;
+  } catch (e) {
+    ctx.throw(400, e.message);
+  }
+};
+
 export const insert = async (ctx, next) => {
   try {
     const auth = ctx.request.auth;
