@@ -1,5 +1,7 @@
 import * as Diary from "#lib/mysql/api/diary.js";
 import { TAG_DB } from "#lib/tagList.js";
+import * as Auth from "#lib/mysql/api/auth.js";
+import moment from "moment";
 
 export const query = async (ctx, next) => {
   try {
@@ -36,6 +38,34 @@ export const insert = async (ctx, next) => {
     if (!auth) {
       ctx.throw(400, "you must sign in first");
     }
+
+    let auth_db = null;
+    await Auth.db_getById(auth.id).then((res) => {
+      if (res.length === 0) {
+        auth_db = res[0];
+      }
+    });
+    if (!auth_db) {
+      ctx.throw(400);
+    }
+
+    let lastDate = null;
+    let count = 0;
+    if (auth_db.diary_last) {
+      lastDate = auth_db.diary_last.split(" ")[0];
+      count = Number(auth_db.diary_last.split(" ")[1]);
+    }
+
+    if (lastDate !== null && lastDate === moment().format("YYYY-MM-DD")) {
+      if (count >= 5) {
+        ctx.throw(400, "max diary count per day exceeded.");
+      }
+    }
+
+    await Auth.update_diary_last({
+      id: auth.id,
+      diary_last: `${moment().format("YYYY-MM-DD")} ${count + 1}`,
+    });
 
     const res = await Diary.db_insert({
       ...ctx.request.body,

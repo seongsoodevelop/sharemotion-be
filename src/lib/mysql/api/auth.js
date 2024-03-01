@@ -13,3 +13,13 @@ export const db_getByUsername = (username) => {
 export const db_getByEmail = (email) => {
   return createPromise(`SELECT * FROM auth WHERE email='${email}'`);
 };
+
+export const db_getById = (id) => {
+  return createPromise(`SELECT * FROM auth WHERE id='${id}'`);
+};
+
+export const update_diary_last = ({ id, diary_last }) => {
+  return createPromise(
+    `UPDATE auth SET diary_last='${diary_last}' WHERE id='${id}'`
+  );
+};
