@@ -6,6 +6,10 @@ export const db_getPage = (page) => {
   );
 };
 
+export const db_find = (id) => {
+  return createPromise(`SELECT * FROM diary WHERE id = '${id}'`);
+};
+
 export const db_getUser = (auth_id) => {
   return createPromise(`SELECT * FROM diary WHERE auth_id = '${auth_id}'`);
 };
@@ -13,5 +17,11 @@ export const db_getUser = (auth_id) => {
 export const db_insert = ({ auth_id, tag_string, content }) => {
   return createPromise(
     `INSERT INTO diary (auth_id, tag_string, content, create_at) VALUE ('${auth_id}', '${tag_string}', '${content}', CURRENT_TIMESTAMP())`
+  );
+};
+
+export const db_update_content = ({ id, content }) => {
+  return createPromise(
+    `UPDATE diary SET content='${content}' WHERE id='${id}'`
   );
 };

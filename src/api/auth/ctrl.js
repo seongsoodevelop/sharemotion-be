@@ -2,7 +2,6 @@ import { db_register, db_getByEmail } from "#lib/mysql/api/auth.js";
 import dotenv from "dotenv";
 import axios from "axios";
 import { generateToken } from "#lib/token.js";
-import { getCookieSecureOptions } from "#lib/option/cookieOptions.js";
 
 dotenv.config();
 
