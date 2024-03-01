@@ -41,7 +41,7 @@ export const insert = async (ctx, next) => {
 
     let auth_db = null;
     await Auth.db_getById(auth.id).then((res) => {
-      if (res.length === 0) {
+      if (res.length === 1) {
         auth_db = res[0];
       }
     });
@@ -95,7 +95,12 @@ export const insert = async (ctx, next) => {
       });
     });
 
-    ctx.body = { ...ctx.request.body, auth_id: auth.id, id: res.insertId };
+    ctx.body = {
+      ...ctx.request.body,
+      auth_id: auth.id,
+      id: res.insertId,
+      reaction_string: "0 0 0 0 0",
+    };
   } catch (e) {
     ctx.throw(400, e.message);
   }
