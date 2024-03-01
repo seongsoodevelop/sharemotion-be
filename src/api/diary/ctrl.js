@@ -102,6 +102,37 @@ export const update_content = async (ctx, next) => {
   }
 };
 
+export const update_reaction_string = async (ctx, next) => {
+  try {
+    const auth = ctx.request.auth;
+    if (!auth) {
+      ctx.throw(400, "you must sign in first");
+    }
+
+    const { id } = ctx.request.body;
+
+    let diary = null;
+    await Diary.db_find(id).then((res) => {
+      if (res.length === 1) {
+        diary = res[0];
+      }
+    });
+
+    if (!diary) {
+      ctx.throw(400, "diary does not exists.");
+    }
+
+    if (diary.auth_id !== auth.id) {
+      ctx.throw(401);
+    }
+
+    await Diary.db_update_reaction_string(ctx.request.body);
+    ctx.body = ctx.request.body;
+  } catch (e) {
+    ctx.throw(400, e.message);
+  }
+};
+
 const renew_diary_tag_relation = async (ctx, next) => {
   const _res = await Diary.db_get();
   await _res.forEach(async (res) => {

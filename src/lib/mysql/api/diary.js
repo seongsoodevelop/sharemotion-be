@@ -43,3 +43,9 @@ export const db_update_content = ({ id, content }) => {
     `UPDATE diary SET content='${content}' WHERE id='${id}'`
   );
 };
+
+export const db_update_reaction_string = ({ id, reaction_string }) => {
+  return createPromise(
+    `UPDATE diary SET reaction_string='${reaction_string}' WHERE id='${id}'`
+  );
+};
