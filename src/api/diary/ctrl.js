@@ -45,6 +45,7 @@ export const insert = async (ctx, next) => {
     const tag_category_list = [];
     let tag_list = ctx.request.body.tag_string.trim().split(" ");
     tag_list = tag_list.map((tag) => {
+      tag = tag.slice(1, tag.length);
       let res = "default";
       const o = TAG_DB.find((o) => o.list.find((x) => x === tag));
       if (o) res = o.type;
