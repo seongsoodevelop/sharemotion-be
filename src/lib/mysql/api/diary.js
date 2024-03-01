@@ -10,6 +10,14 @@ export const db_getPage = (page) => {
   );
 };
 
+export const db_getPageCategory = (diaryTagCategory, page) => {
+  return createPromise(
+    `SELECT * FROM diary_relation_tag L LEFT JOIN diary R ON(L.diary_id = R.id) WHERE L.tag_category = '${diaryTagCategory}' ORDER BY id DESC LIMIT 10 OFFSET ${
+      (page - 1) * 10
+    }`
+  );
+};
+
 export const db_find = (id) => {
   return createPromise(`SELECT * FROM diary WHERE id = '${id}'`);
 };
