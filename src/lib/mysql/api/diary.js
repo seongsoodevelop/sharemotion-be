@@ -18,6 +18,18 @@ export const db_getPageCategory = (diaryTagCategory, page) => {
   );
 };
 
+export const db_getLikedDiary = (auth_id) => {
+  return createPromise(
+    `SELECT * FROM diary_relation_user WHERE L.auth_id = '${auth_id}'`
+  );
+};
+
+export const db_getLikedDiaryJoin = (auth_id) => {
+  return createPromise(
+    `SELECT * FROM diary_relation_user L LEFT JOIN diary R ON(L.diary_id = R.id) WHERE L.auth_id = '${auth_id}'`
+  );
+};
+
 export const db_find = (id) => {
   return createPromise(`SELECT * FROM diary WHERE id = '${id}'`);
 };
@@ -44,6 +56,6 @@ export const db_update_content = ({ id, content }) => {
   );
 };
 
-export const db_update_like = ({ id, like }) => {
-  return createPromise(`UPDATE diary SET like='${like}' WHERE id='${id}'`);
+export const db_update_love = ({ id, love }) => {
+  return createPromise(`UPDATE diary SET love='${love}' WHERE id='${id}'`);
 };

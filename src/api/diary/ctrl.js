@@ -32,6 +32,25 @@ export const getUser = async (ctx, next) => {
   }
 };
 
+export const getUserLikedDiary = async (ctx, next) => {
+  try {
+    const auth = ctx.request.auth;
+    if (!auth) {
+      ctx.throw(400, "you must sign in first");
+    }
+
+    if (ctx.request.body.isDiaryDataNeeded) {
+      const res = await Diary.db_getLikedDiaryJoin(auth.id);
+      ctx.body = res;
+    } else {
+      const res = await Diary.db_getLikedDiary(auth.id);
+      ctx.body = res;
+    }
+  } catch (e) {
+    ctx.throw(400, e.message);
+  }
+};
+
 export const insert = async (ctx, next) => {
   try {
     const auth = ctx.request.auth;
@@ -137,7 +156,7 @@ export const update_content = async (ctx, next) => {
   }
 };
 
-export const update_like = async (ctx, next) => {
+export const update_love = async (ctx, next) => {
   try {
     const auth = ctx.request.auth;
     if (!auth) {
@@ -157,13 +176,13 @@ export const update_like = async (ctx, next) => {
       ctx.throw(400, "diary does not exists.");
     }
 
-    if (diary.auth_id !== auth.id) {
-      ctx.throw(401);
-    }
-
-    await Diary.update_like(ctx.request.body);
+    await Diary.db_update_love({
+      id: diary.id,
+      love: diary.love + 1,
+    });
     ctx.body = ctx.request.body;
   } catch (e) {
+    console.log(e);
     ctx.throw(400, e.message);
   }
 };
