@@ -5,13 +5,23 @@ import moment from "moment";
 
 export const query = async (ctx, next) => {
   try {
-    const { diaryTagCategory, page } = ctx.request.body;
-    if (diaryTagCategory === "") {
-      const res = await Diary.db_getPage(page);
+    const { diaryTagCategory, page, loved } = ctx.request.body;
+    if (loved) {
+      const auth = ctx.request.auth;
+      if (!auth) {
+        ctx.throw(400, "you must sign in first");
+      }
+
+      const res = await Diary.db_getLoved(auth.id, page);
       ctx.body = res;
     } else {
-      const res = await Diary.db_getPageCategory(diaryTagCategory, page);
-      ctx.body = res;
+      if (diaryTagCategory === "") {
+        const res = await Diary.db_getPage(page);
+        ctx.body = res;
+      } else {
+        const res = await Diary.db_getPageCategory(diaryTagCategory, page);
+        ctx.body = res;
+      }
     }
   } catch (e) {
     ctx.throw(400, e.message);

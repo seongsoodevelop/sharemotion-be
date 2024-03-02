@@ -18,6 +18,14 @@ export const db_getPageCategory = (diaryTagCategory, page) => {
   );
 };
 
+export const db_getLoved = (auth_id, page) => {
+  return createPromise(
+    `SELECT * FROM diary_relation_user L LEFT JOIN diary R ON(L.diary_id = R.id) WHERE L.auth_id = '${auth_id}' ORDER BY id DESC LIMIT 10 OFFSET ${
+      (page - 1) * 10
+    }`
+  );
+};
+
 export const db_getLovedDiaryWithId = (auth_id, diary_id) => {
   return createPromise(
     `SELECT * FROM diary_relation_user WHERE auth_id = '${auth_id}' AND diary_id = '${diary_id}'`
