@@ -18,13 +18,31 @@ export const db_getPageCategory = (diaryTagCategory, page) => {
   );
 };
 
-export const db_getLikedDiary = (auth_id) => {
+export const db_getLovedDiaryWithId = (auth_id, diary_id) => {
   return createPromise(
-    `SELECT * FROM diary_relation_user WHERE L.auth_id = '${auth_id}'`
+    `SELECT * FROM diary_relation_user WHERE auth_id = '${auth_id}' AND diary_id = '${diary_id}'`
   );
 };
 
-export const db_getLikedDiaryJoin = (auth_id) => {
+export const db_delLikedDiaryWithId = (auth_id, diary_id) => {
+  return createPromise(
+    `DELETE FROM diary_relation_user WHERE auth_id = '${auth_id}' AND diary_id = '${diary_id}'`
+  );
+};
+
+export const db_insLikedDiaryWithId = (auth_id, diary_id) => {
+  return createPromise(
+    `INSERT INTO diary_relation_user (auth_id, diary_id) VALUE ('${auth_id}', '${diary_id}')`
+  );
+};
+
+export const db_getLovedDiary = (auth_id) => {
+  return createPromise(
+    `SELECT * FROM diary_relation_user WHERE auth_id = '${auth_id}'`
+  );
+};
+
+export const db_getLovedDiaryJoin = (auth_id) => {
   return createPromise(
     `SELECT * FROM diary_relation_user L LEFT JOIN diary R ON(L.diary_id = R.id) WHERE L.auth_id = '${auth_id}'`
   );

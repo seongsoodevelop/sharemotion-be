@@ -32,7 +32,7 @@ export const getUser = async (ctx, next) => {
   }
 };
 
-export const getUserLikedDiary = async (ctx, next) => {
+export const getUserLoved = async (ctx, next) => {
   try {
     const auth = ctx.request.auth;
     if (!auth) {
@@ -40,10 +40,10 @@ export const getUserLikedDiary = async (ctx, next) => {
     }
 
     if (ctx.request.body.isDiaryDataNeeded) {
-      const res = await Diary.db_getLikedDiaryJoin(auth.id);
+      const res = await Diary.db_getLovedDiaryJoin(auth.id);
       ctx.body = res;
     } else {
-      const res = await Diary.db_getLikedDiary(auth.id);
+      const res = await Diary.db_getLovedDiary(auth.id);
       ctx.body = res;
     }
   } catch (e) {
@@ -176,11 +176,28 @@ export const update_love = async (ctx, next) => {
       ctx.throw(400, "diary does not exists.");
     }
 
+    let relation_el = null;
+    await Diary.db_getLovedDiaryWithId(auth.id, diary.id).then((res) => {
+      if (res.length === 1) {
+        relation_el = res[0];
+      }
+    });
+
+    if (relation_el) {
+      await Diary.db_delLikedDiaryWithId(auth.id, diary.id);
+    } else {
+      await Diary.db_insLikedDiaryWithId(auth.id, diary.id);
+    }
+
     await Diary.db_update_love({
       id: diary.id,
-      love: diary.love + 1,
+      love: diary.love + (relation_el ? -1 : 1),
     });
-    ctx.body = ctx.request.body;
+    ctx.body = {
+      diary_id: diary.id,
+      auth_id: auth.id,
+      loved: relation_el ? false : true,
+    };
   } catch (e) {
     console.log(e);
     ctx.throw(400, e.message);

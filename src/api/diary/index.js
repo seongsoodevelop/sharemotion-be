@@ -5,13 +5,13 @@ import {
   getUser,
   update_content,
   update_love,
-  getUserLikedDiary,
+  getUserLoved,
 } from "./ctrl.js";
 
 const router = new KoaRouter();
 router.post("/query", query);
 router.post("/getUser", getUser);
-router.post("/getUserLikedDiary", getUserLikedDiary);
+router.post("/getUserLoved", getUserLoved);
 router.post("/insert", insert);
 router.post("/update_content", update_content);
 router.post("/update_love", update_love);
