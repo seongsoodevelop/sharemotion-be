@@ -44,8 +44,6 @@ export const db_update_content = ({ id, content }) => {
   );
 };
 
-export const db_update_reaction_string = ({ id, reaction_string }) => {
-  return createPromise(
-    `UPDATE diary SET reaction_string='${reaction_string}' WHERE id='${id}'`
-  );
+export const db_update_like = ({ id, like }) => {
+  return createPromise(`UPDATE diary SET like='${like}' WHERE id='${id}'`);
 };

@@ -137,7 +137,7 @@ export const update_content = async (ctx, next) => {
   }
 };
 
-export const update_reaction_string = async (ctx, next) => {
+export const update_like = async (ctx, next) => {
   try {
     const auth = ctx.request.auth;
     if (!auth) {
@@ -161,7 +161,7 @@ export const update_reaction_string = async (ctx, next) => {
       ctx.throw(401);
     }
 
-    await Diary.db_update_reaction_string(ctx.request.body);
+    await Diary.update_like(ctx.request.body);
     ctx.body = ctx.request.body;
   } catch (e) {
     ctx.throw(400, e.message);
