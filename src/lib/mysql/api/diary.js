@@ -6,7 +6,7 @@ export const db_get = () => {
 
 export const db_getPage = (page) => {
   return createPromise(
-    `SELECT * FROM diary ORDER BY id DESC LIMIT 10 OFFSET ${(page - 1) * 10}`
+    `SELECT * FROM diary ORDER BY id DESC LIMIT 20 OFFSET ${(page - 1) * 20}`
   );
 };
 
@@ -20,8 +20,8 @@ export const db_getPageCategory = (diaryTagCategory, page) => {
 
 export const db_getLoved = (auth_id, page) => {
   return createPromise(
-    `SELECT * FROM diary_relation_user L LEFT JOIN diary R ON(L.diary_id = R.id) WHERE L.auth_id = '${auth_id}' ORDER BY id DESC LIMIT 10 OFFSET ${
-      (page - 1) * 10
+    `SELECT * FROM diary_relation_user L LEFT JOIN diary R ON(L.diary_id = R.id) WHERE L.auth_id = '${auth_id}' ORDER BY id DESC LIMIT 20 OFFSET ${
+      (page - 1) * 20
     }`
   );
 };
