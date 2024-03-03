@@ -214,7 +214,9 @@ export const update_love = async (ctx, next) => {
   }
 };
 
-const renew_diary_tag_relation = async (ctx, next) => {
+export const renew_diary_tag_relation = async (ctx, next) => {
+  ctx.body = {};
+  return;
   const _res = await Diary.db_get();
   await _res.forEach(async (res) => {
     const tag_category_list = [];
