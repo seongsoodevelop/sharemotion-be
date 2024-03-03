@@ -91,14 +91,14 @@ export const insert = async (ctx, next) => {
       }
     }
 
-    await Auth.update_diary_last({
-      id: auth.id,
-      diary_last: `${moment().format("YYYY-MM-DD")} ${count + 1}`,
-    });
-
     const res = await Diary.db_insert({
       ...ctx.request.body,
       auth_id: auth.id,
+    });
+
+    await Auth.update_diary_last({
+      id: auth.id,
+      diary_last: `${moment().format("YYYY-MM-DD")} ${count + 1}`,
     });
 
     const tag_category_list = [];
