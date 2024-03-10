@@ -98,7 +98,9 @@ export const insert = async (ctx, next) => {
 
     await Auth.update_diary_last({
       id: auth.id,
-      diary_last: `${moment().format("YYYY-MM-DD")} ${count + 1}`,
+      diary_last: `${moment().format("YYYY-MM-DD")} ${
+        lastDate === moment().format("YYYY-MM-DD") ? count + 1 : 1
+      }`,
     });
 
     const tag_category_list = [];
